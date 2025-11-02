@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Speech to Text (Vosk)</title>
+  <style>
+    body {
+      font-family: "Segoe UI", sans-serif;
+      background: #f8f9fa;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+    h2 {
+      color: #333;
+      margin-bottom: 20px;
+    }
+    .card {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      width: 400px;
+    }
+    button {
+      padding: 10px 20px;
+      border: none;
+      background-color: #007bff;
+      color: white;
+      font-size: 16px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    #transcript {
+      margin-top: 20px;
+      white-space: pre-wrap;
+      text-align: left;
+      font-size: 16px;
+      color: #222;
+      background: #f1f1f1;
+      padding: 10px;
+      border-radius: 8px;
+      min-height: 100px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <h2>🎙 Speech-to-Text (Vosk)</h2>
+
+    <input type="file" id="audioFile" accept=".wav" />
+    <br><br>
+    <button onclick="uploadAudio()">Transcribe</button>
+
+    <p id="status"></p>
+    <div id="transcript"></div>
+  </div>
+
+  <script>
+    async function uploadAudio() {
+      const fileInput = document.getElementById("audioFile");
+      const status = document.getElementById("status");
+      const transcriptDiv = document.getElementById("transcript");
+
+      // ✅ Clear previous output
+      status.innerText = "";
+      transcriptDiv.innerText = "";
+
+      // ✅ Check if a file is selected
+      if (!fileInput.files[0]) {
+        alert("⚠️ Please select a WAV audio file!");
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append("audio", fileInput.files[0]);
+
+      // ✅ Update UI
+      status.innerText = "⏳ Transcribing, please wait...";
+      transcriptDiv.innerText = "";
+
+      try {
+        // ⚙️ Update the URL depending on your Flask backend port (8000 or 5000)
+        const response = await fetch("http://127.0.0.1:8000/transcribe", {
+          method: "POST",
+          body: formData,
+        });
+
+        // ✅ Handle non-200 errors
+        if (!response.ok) {
+          status.innerText = "❌ Error: Backend returned " + response.status;
+          return;
+        }
+
+        const data = await response.json();
+
+        if (data.transcript) {
+          status.innerText = "✅ Transcription Complete!";
+          transcriptDiv.innerText = data.transcript;
+        } else if (data.error) {
+          status.innerText = "⚠️ " + data.error;
+        } else {
+          status.innerText = "⚠️ Unknown error occurred.";
+        }
+      } catch (error) {
+        status.innerText = "❌ Could not connect to backend!";
+        console.error("Connection error:", error);
+      }
+    }
+  </script>
+
+</body>
+</html>
