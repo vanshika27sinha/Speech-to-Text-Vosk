@@ -1,37 +1,34 @@
-A lightweight and efficient Speech-to-Text (STT) web application built using Python (Flask) for backend processing and HTML, CSS, and JavaScript for the frontend. The app records your voice, saves it as an audio file, and converts it into text automatically.
+
+
+Speech-to-Text (Vosk)
+
+A lightweight and efficient Speech-to-Text (STT) web application built using Python (Flask) for backend processing and HTML, CSS, and JavaScript for the frontend.
+The app records your voice (or accepts .wav input), sends it to the backend for processing using Vosk Offline Speech Recognition, and returns the transcribed text instantly.
 
 🚀 Features
 
-🎧 Record audio directly through the browser
-
-🧠 Converts speech into text using the backend
-
+🎧 Record or upload audio directly through the browser
+🧠 Converts speech into text using Vosk (Offline Speech Recognition)
 💾 Saves recorded audio in .wav format
-
-⚙️ Integrated backend and frontend (Flask + Node.js)
-
-🖥️ Simple, clean web interface
+⚙️ Integrated backend (Flask) and frontend (Node.js + HTML/JS)
+🖥️ Simple, clean, and responsive web interface
 
 🗂️ Project Structure
-Speech-To-Text-App/
+Speech-To-Text-Vosk/
 │
-├── backend/
-│   ├── record_audio.py        # Script for local voice recording
-│   ├── server.py              # Flask backend handling transcription
-│   ├── requirements.txt       # Backend dependencies
-│
-├── frontend/
-│   ├── index.html             # Main web interface
-│   ├── style.css              # Styling for the UI
-│   ├── script.js              # Logic for recording/sending audio
-│   ├── server.js              # Node.js server hosting the frontend
-│
+├── record_audio.py          # Script for local voice recording
+├── speech_service.py        # Flask backend using Vosk for speech recognition
+├── server.js                # Node.js server hosting the frontend
+├── index.html               # Frontend interface
+├── package.json             # Frontend dependencies
+├── requirements.txt         # Python dependencies
+├── test_audio.wav           # Sample audio file
 └── README.md
 
 ⚙️ Setup Instructions
 🧩 Step 1 — Clone the Repository
-git clone https://github.com/yourusername/speech-to-text-app.git
-cd speech-to-text-app
+git clone https://github.com/vanshika27sinha/Speech-to-Text-Vosk.git
+cd Speech-to-Text-Vosk
 
 🐍 Step 2 — Setup the Python Backend
 
@@ -43,24 +40,18 @@ conda activate speechtext
 
 Install dependencies:
 
-pip install -r backend/requirements.txt
+pip install -r requirements.txt
 
 
 Run the Flask backend:
 
-cd backend
-python server.py
+python speech_service.py
 
 
 ✅ Backend will start at:
-http://127.0.0.1:5000
+👉 http://127.0.0.1:8000/
 
 💻 Step 3 — Setup and Run the Frontend
-
-Go to the frontend folder:
-
-cd ../frontend
-
 
 Run the Node.js frontend server:
 
@@ -68,13 +59,12 @@ node server.js
 
 
 ✅ Frontend will run at:
-http://127.0.0.1:3000
+👉 http://127.0.0.1:5000/
 
 🎤 Step 4 — Record Audio Locally (Optional)
 
 You can record short clips using the command below:
 
-cd backend
 python record_audio.py
 
 
@@ -86,40 +76,44 @@ Endpoint	Method	Description
 
 Example curl request:
 
-curl -X POST -F "file=@test_audio.wav" http://127.0.0.1:5000/transcribe
+curl -X POST -F "file=@test_audio.wav" http://127.0.0.1:8000/transcribe
 
 🛠️ Technologies Used
 
-Python 3.10
+🐍 Python 3.10
 
-Flask
+⚙️ Flask
 
-SoundDevice & SciPy
+🧩 Vosk Speech Recognition
 
-HTML5, CSS3, JavaScript (Fetch API)
+🎧 SoundDevice & SciPy
 
-Node.js with Express.js
+🌐 HTML5, CSS3, JavaScript (Fetch API)
+
+💻 Node.js with Express.js
 
 📦 Requirements
 Flask
+vosk
 sounddevice
 scipy
 
-📸 Screenshots
-Recording Interface	Transcription Output
+📸 Output Screenshot
+🎯 Transcription Output
 
-	
+(Add the above image file in your repository root and rename it output_screenshot.png)
+
 💡 Future Enhancements
 
 🌐 Real-time speech streaming
-
-🗣️ Multi-language support
-
+🗣️ Multi-language recognition
 ☁️ Integration with Google / Whisper APIs
-
 🔊 Audio history and playback
+📱 Improved responsive design
 
 🤝 Contribution
 
-Contributions are always welcome!
-If you’d like to improve this project, open an issue or a pull request on GitHub.
+Contributions, issues, and feature requests are welcome!
+Feel free to open a pull request 💬
+
+✅ Developed by Vanshika Sinha
